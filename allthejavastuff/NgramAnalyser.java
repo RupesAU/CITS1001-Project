@@ -39,7 +39,15 @@ public class NgramAnalyser
      */
     public NgramAnalyser(int n, String inp) 
     { 
-        //TODO replace this line with your code
+        char[] ch = inp.toCharArray();
+        for (int i=0;  i<inp.length();  i++){
+            //test
+            for (int z=0; z<n; z++){
+                System.out.println(ch[i+z]);
+                
+            }
+            System.out.println(" ");
+    }
     }
 
     /** 
