@@ -15,7 +15,7 @@ import java.util.Arrays;
  * a sequence of contiguous characters from the start of the string.
  * e.g. "abbc" includes "bca" and "cab" in its 3-grams
  * 
- * @author (your name) 
+ * @Rupert Hu & Tyrone Goodrick (your name) 
  * @version (a version number or a date)
  */
 public class NgramAnalyser
