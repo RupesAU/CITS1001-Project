@@ -40,14 +40,18 @@ public class NgramAnalyser
     public NgramAnalyser(int n, String inp) 
     { 
         char[] ch = inp.toCharArray();
-        for (int i=0;  i<inp.length();  i++){
+        for (int i=0;  i<ch.length();  i++){
             //test
             for (int z=0; z<n; z++){
-                System.out.println(ch[i+z]);
+                if ((i+z) > ch.length-1){
+                    System.out.println(ch[(i+z)-ch.length]);
+                } else {
+                    System.out.println(ch[i+j]);
+                }
                 
             }
             System.out.println(" ");
-    }
+        }
     }
 
     /** 
