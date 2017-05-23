@@ -42,11 +42,11 @@ public class NgramAnalyser
         char[] ch = inp.toCharArray();
         for (int i=0;  i<ch.length();  i++){
             //test
-            for (int z=0; z<n; z++){
-                if ((i+z) > ch.length-1){
-                    System.out.println(ch[(i+z)-ch.length]);
+            for (int j=0; j<n; z++){
+                if ((i+j) > ch.length-1){
+                    System.out.println(ch[(i+j)-ch.length]);
                 } else {
-                    System.out.println(ch[i+z]);
+                    System.out.println(ch[i+j]);
                 }
                 
             }
