@@ -46,7 +46,7 @@ public class NgramAnalyser
                 if ((i+z) > ch.length-1){
                     System.out.println(ch[(i+z)-ch.length]);
                 } else {
-                    System.out.println(ch[i+j]);
+                    System.out.println(ch[i+z]);
                 }
                 
             }
