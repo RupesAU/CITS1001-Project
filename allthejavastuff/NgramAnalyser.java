@@ -15,7 +15,7 @@ import java.util.Arrays;
  * a sequence of contiguous characters from the start of the string.
  * e.g. "abbc" includes "bca" and "cab" in its 3-grams
  * 
- * @Rupert Hu & Tyrone Goodrick (your name) 
+ * @author (your name) 
  * @version (a version number or a date)
  */
 public class NgramAnalyser
@@ -38,22 +38,108 @@ public class NgramAnalyser
      * @param String inp input string to be modelled
      */
     public NgramAnalyser(int n, String inp) 
-    { 
-        char[] ch = inp.toCharArray();
-        for (int i=0;  i<ch.length();  i++){
-            //test
-            for (int j=0; j<n; z++){
-                if ((i+j) > ch.length-1){
-                    System.out.println(ch[(i+j)-ch.length]);
-                } else {
-                    System.out.println(ch[i+j]);
-                }
-                
-            }
-            System.out.println(" ");
+    {   
+        StringBuilder sb = new StringBuilder("");
+        int len;
+        
+        if(inp == null){
+            throw new IllegalArgumentException(
+             "String must not be null");
         }
+        else{
+            len = inp.length();
+        }
+        
+        if (n <= 0) 
+           { 
+           throw new IllegalArgumentException(
+            "N-gram must have length greater than zero.");
+        }
+        
+        if ((len == 0)) 
+           { 
+           throw new IllegalArgumentException(
+            "String must have length greater than zero.");
+          }
+          
+         if (n > len) 
+          { 
+           throw new IllegalArgumentException(
+            "N-gram must have a length equal to or less than the String size.");
+        }
+        
+        for(int i = 0; i < len; i++){
+         
+            for(int j = 0; j < n; j++){
+                if((i+j) > len-1){
+                    System.out.print(inp.charAt((i+j)-len));
+                    sb.append(inp.charAt((i+j)-len));
+                }
+
+                else{
+                    System.out.print(inp.charAt(i+j));
+                    sb.append(inp.charAt(i+j));
+                }
+           
+            }
+            System.out.print(" "); 
+        }
+
+        ngram = new HashMap<String, Integer>();
+        
+        String resString = sb.toString();
+        String[] inputArray = splitStringEvery(resString, n);
+        
+        Arrays.sort(inputArray);
+       //Alphabetize?
+        
+        for (String a : inputArray){
+            if(ngram.get(a) != null) {
+                ngram.put(a, ngram.get(a)+1);
+            }
+            else {
+                ngram.put(a,1);
+            }
+        }
+       
+        System.out.println(ngram.size() + " distinct words:");
+        //NOTE: ngram.size() is the 'frequencies of n-grams.
+        
+        System.out.println(ngram);
+        
+        
+        
+        
+        
+        // ---------------------------
+        //   Obtaining Alphabet Size
+        //   Note: Capital letters are considered different to lowercase letters when counting the alphabetSize. I.e. "eE" has int alphabetSize 2.
+        // ---------------------------
+        boolean isContainedPreviously = false;
+        alphabetSize = 1;
+        
+        for(int i = 1; i < len; i++){
+            for (int j = 0; j < i; j++){
+                if(inp.charAt(i) == inp.charAt(j)){
+                        isContainedPreviously = true;
+                }
+            }
+            if(isContainedPreviously == false){
+                alphabetSize = alphabetSize + 1;
+            }
+            else{
+                isContainedPreviously = false;
+            }
+        }
+        
+        System.out.println("This is the alphabetSize: " + alphabetSize);
+        
+
+      
+       
     }
 
+    
     /** 
      * Analyses the input text for n-grams of size 1.
      */
@@ -66,8 +152,7 @@ public class NgramAnalyser
      * @return int the size of the alphabet of a given input
      */
     public int getAlphabetSize() {
-        //TODO replace this line with your code
-        return -1;
+        return alphabetSize;
     }
 
     /**
@@ -75,8 +160,7 @@ public class NgramAnalyser
      *         in the input text.
      */
     public int getDistinctNgramCount() {
-        //TODO replace this line with your code
-        return -1;
+        return ngram.size();
     }
 
     /** 
@@ -93,8 +177,11 @@ public class NgramAnalyser
      *         in the input text (not requiring them to be distinct)
      */
     public int getNgramCount() {
-        //TODO replace this line with your code
-        return -1;
+        int x = 0;
+        for(Object value : ngram.values()){
+            x = x + Integer.parseInt(value.toString());
+        }
+        return x;
     }
 
     /** Return the frequency with which a particular n-gram appears
@@ -104,8 +191,11 @@ public class NgramAnalyser
      * @return The frequency with which the n-gram appears.
      */
     public int getNgramFrequency(String ngram) {
-        //TODO replace this line with your code
-        return -1;
+        int x = this.ngram.get(ngram);
+        if(x != 0){
+            return x; 
+        }
+        return 0;
     }
 
 
@@ -118,8 +208,39 @@ public class NgramAnalyser
      */
     public String toString()
     {
-        //TODO replace this line with your code
-        return null;
+        //Alphabetise? Alphabetisation might be easier if you do it when it's being stored up above.
+        
+        String result = "";
+        String num = "";
+        
+        for (String key : ngram.keySet()){
+            System.out.println(key + " " + ngram.get(key));
+            result = result + key + " " + ngram.get(key) + "\n";
+            num = key;
+        }
+        
+        result = num.length() + "\n" + result;
+        
+        System.out.println(result);
+        return result;
     }
 
+    /**
+     * https://stackoverflow.com/questions/12295711/split-a-string-at-every-nth-position
+     */
+        public String[] splitStringEvery(String s, int interval) {
+        int arrayLength = (int) Math.ceil(((s.length() / (double)interval)));
+        String[] result = new String[arrayLength];
+
+        int j = 0;
+        int lastIndex = result.length - 1;
+        for (int i = 0; i < lastIndex; i++) {
+            result[i] = s.substring(j, j + interval);
+            j += interval;
+        } //Add the last bit
+        result[lastIndex] = s.substring(j);
+
+        return result;
+    }
+    
 }
